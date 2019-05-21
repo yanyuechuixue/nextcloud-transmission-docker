@@ -17,6 +17,11 @@ services:
   transmission:
     image: linuxserver/transmission
     container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+
     volumes:
       - ./config_transmission:/config:rw
       - ./downloads:/downloads:rw
