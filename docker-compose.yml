@@ -1,0 +1,30 @@
+version: '2'
+
+volumes:
+  nextcloud:
+
+services:
+  nextcloud:
+    image: nextcloud
+    container_name: nextcloud
+    volumes:
+      - nextcloud:/var/www/html:rw
+      - ./downloads:/userfile:rw
+    ports:
+      - 8000:80
+    restart: unless-stopped
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    volumes:
+      - ./config_transmission:/config:rw
+      - ./downloads:/downloads:rw
+      - ./downloads:/watch:rw
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    links:
+      - nextcloud:file-manager
+    restart: unless-stopped
